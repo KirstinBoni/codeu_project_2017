@@ -15,9 +15,11 @@
 package codeu.chat.client;
 
 import java.util.ArrayList;
+import codeu.chat.util.store.Store;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 import codeu.chat.common.Conversation;
 import codeu.chat.common.ConversationSummary;
@@ -36,6 +38,10 @@ public final class ClientMessage {
 
   private final Controller controller;
   private final View view;
+  
+  // Store that contains keywords mapped to messages that contain them
+  private Store<String, Message> messagesSortedByKeyword = 
+		  new Store<>(String.CASE_INSENSITIVE_ORDER);
 
   private Message current = null;
 
@@ -119,9 +125,17 @@ public final class ClientMessage {
     if (conversationContents.size() == 0) {
       System.out.println(" Current Conversation has no messages");
     } else {
+      // Get the time at the start
+      long initialTime = System.currentTimeMillis();
       for (final Message m : conversationContents) {
         printMessage(m, userContext);
       }
+      
+      // Get the time at the end and subtract by the start time to get the total time
+      long finalTime = System.currentTimeMillis();
+      System.out.println(finalTime);
+      long timeDifference = finalTime - initialTime;
+      System.out.println("Time to get messages: " + timeDifference);
     }
   }
 
@@ -130,24 +144,40 @@ public final class ClientMessage {
   // Message 1 is the head of the Conversation's message chain.
   // Message -1 is the tail of the Conversation's message chain.
   public void selectMessage(int index) {
-    Method.notImplemented();
+	    Method.notImplemented();
   }
 
   // Processing for m-show command.
   // Accept an int for number of messages to attempt to show (1 by default).
   // Negative values go from newest to oldest.
   public void showMessages(int count) {
-    for (final Message m : conversationContents) {
-      printMessage(m, userContext);
-    }
+      for (final Message m : conversationContents) {
+          printMessage(m, userContext);
+        }
   }
 
   private void showNextMessages(int count) {
-    Method.notImplemented();
+	    Method.notImplemented();
   }
 
   private void showPreviousMessages(int count) {
     Method.notImplemented();
+  }
+  
+  /**
+   * Method to find messages that contain the desired keyword.
+   * 
+   * @param keyword word to find in the messages.
+   */
+  public void findMessages(String keyword){
+	  // Check the first element to determine if it the StoreLink is empty	  
+	  if(messagesSortedByKeyword.first(keyword) != null){
+		  for(Message m : messagesSortedByKeyword.at(keyword)){
+			  printMessage(m, userContext);
+		  }
+	  }else{
+		  System.out.println("No messages contain keyword.");
+	  }
   }
 
   // Determine the next message ID of the current conversation to start pulling.
@@ -179,6 +209,16 @@ public final class ClientMessage {
     }
     return nextMessageId;
   }
+  
+  // Map keywords in each message to each message that contains it
+  // Currently repeats each time updateMessages is called
+  public void mapKeywords(Message addMessage){
+	  String[] wordsArray = addMessage.content.split("\\p{Punct}*\\s+[\\s\\p{Punct}]*");
+
+	  for(String keyword : wordsArray){
+		  messagesSortedByKeyword.insert(keyword, addMessage);
+	  }
+  }
 
   // Update the list of messages for the current conversation.
   // Currently rereads the entire message chain.
@@ -209,6 +249,9 @@ public final class ClientMessage {
         for (final Message msg : view.getMessages(nextMessageId, MESSAGE_FETCH_COUNT)) {
 
           conversationContents.add(msg);
+          
+          // Add message to Store that maps keywords to messages
+          mapKeywords(msg);
 
           // Race: message possibly added since conversation fetched.  If that occurs,
           // pretend the newer messages do not exist - they'll get picked up next time).
