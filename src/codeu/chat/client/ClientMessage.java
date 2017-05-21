@@ -130,7 +130,28 @@ public final class ClientMessage {
   // Message 1 is the head of the Conversation's message chain.
   // Message -1 is the tail of the Conversation's message chain.
   public void selectMessage(int index) {
-    Method.notImplemented();
+   int i = 1;
+	  for(Message m: conversationContents)
+	  {
+		  if(i == index)
+		  {
+			  printMessage(m, userContext);
+			  i++;
+		  }
+	  }
+	  if(index == -1)
+	  {
+		int j = 1;
+		for(Message m: conversationContents)
+		{
+			if(i==j)
+			{
+				printMessage(m, userContext);	
+			}
+			j++;
+		}
+		  
+	  }
   }
 
   // Processing for m-show command.
@@ -143,13 +164,60 @@ public final class ClientMessage {
   }
 
   private void showNextMessages(int count) {
-    Method.notImplemented();
+   int i = 1;
+	  for(Message m : conversationContents)
+	  {
+		  if(i == count+1)
+		  {
+			  printMessage(m, userContext);
+			  break;
+		  }
+		  i++;
+	  }
   }
 
   private void showPreviousMessages(int count) {
-    Method.notImplemented();
+      int i = 1;
+	  for(Message m: conversationContents)
+	  {
+		  if(i == count-1)
+		  {
+			  printMessage(m, userContext);
+			  break;
+		  }
+		  i++;
+		  
+		   
+	  }
+	  if(count == -1)
+	  {	
+		int j = 1;
+		for(Message m: conversationContents)
+		{
+			if(i == j)
+			{
+				printMessage(m, userContext);
+			}
+			j++;
+		}
+		  
+	  }
   }
-
+public void findMessages(String keyword)
+  {
+	  if(messagesSortedByKeyword.first(keyword) != null)
+	  {
+		  		  for(Message m : messagesSortedByKeyword.at(keyword))
+		  		  {
+		   			  printMessage(m, userContext);
+		   		  }
+	  }
+	  else
+	  {
+		  	  System.out.println("No messages contain keyword.");
+	  }
+	  
+  }
   // Determine the next message ID of the current conversation to start pulling.
   // This requires a read of the last read message to determine if the chain has been extended.
   private Uuid getCurrentMessageFetchId(boolean replaceAll) {
