@@ -142,14 +142,13 @@ public final class Server {
       Serializers.collection(Conversation.SERIALIZER).write(out, conversations);
 
     } else if (type == NetworkCode.GET_MESSAGES_BY_ID_REQUEST) {
-      
+
       final Collection<Uuid> ids = Serializers.collection(Uuids.SERIALIZER).read(in);
 
       final Collection<Message> messages = view.getMessages(ids);
 
       Serializers.INTEGER.write(out, NetworkCode.GET_MESSAGES_BY_ID_RESPONSE);
       Serializers.collection(Message.SERIALIZER).write(out, messages);
-      
 
     } else if (type == NetworkCode.GET_USER_GENERATION_REQUEST) {
 
@@ -185,19 +184,18 @@ public final class Server {
       Serializers.collection(Conversation.SERIALIZER).write(out, conversations);
 
     } else if (type == NetworkCode.GET_MESSAGES_BY_TIME_REQUEST) {
-      
+
       final Uuid conversation = Uuids.SERIALIZER.read(in);
       final Time startTime = Time.SERIALIZER.read(in);
       final Time endTime = Time.SERIALIZER.read(in);
 
       final Collection<Message> messages = view.getMessages(conversation, startTime, endTime);
 
-      
       Serializers.INTEGER.write(out, NetworkCode.GET_MESSAGES_BY_TIME_RESPONSE);
       Serializers.collection(Message.SERIALIZER).write(out, messages);
 
     } else if (type == NetworkCode.GET_MESSAGES_BY_RANGE_REQUEST) {
-    	
+
       final Uuid rootMessage = Uuids.SERIALIZER.read(in);
       final int range = Serializers.INTEGER.read(in);
 
@@ -205,7 +203,6 @@ public final class Server {
 
       Serializers.INTEGER.write(out, NetworkCode.GET_MESSAGES_BY_RANGE_RESPONSE);
       Serializers.collection(Message.SERIALIZER).write(out, messages);
-      
 
     } else {
 
