@@ -176,6 +176,36 @@ public final class Controller implements RawController, BasicController {
 
 	  }
   }
+	
+  @Override
+  public void deleteMessage(String id){
+    final Message removeMessage = model.messageById().first(id);
+    if(removeMessage != null)
+    {
+      model.messageById.removeByValue(removeMessage);
+      if(isIdFree(id) && isIdFree(removeMessage.id))
+      {
+        LOG.info(
+          "deleteMessage success (message.author=%s, message.id=%s, message.time=%s"), 
+          removeMessage.author, 
+          removeMessage.id, 
+          removeMessage.creation
+        );
+      }
+      else{
+        LOG.info(
+          "deleteMessage fail (message.author=%s, message.id=%s, message.time=%s"),
+          removeMessage.author,
+          removeMessage.id,
+          removeMessage.creation
+        );
+      }
+      else
+      {
+        LOG.info("deleteMessage fail - message does not exist.");
+      }
+    }
+  }
 
   private Uuid createId() {
 
