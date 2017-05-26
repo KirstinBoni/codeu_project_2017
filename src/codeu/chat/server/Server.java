@@ -222,7 +222,13 @@ public final class Server {
         
         Serializers.INTEGER.write(out, NetworkCode.DELETE_USER_RESPONSE);
 
-    } else {
+    } 
+	  else if(type == NewtorkCode.DELETE_MESSAGE_REQUEST){
+      final String id = Serializers.STRING.read(in);
+      controller.deleteMessage(id);
+      Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_REQUEST);
+    }
+	  else {
 
       // In the case that the message was not handled make a dummy message with
       // the type "NO_MESSAGE" so that the client still gets something.
