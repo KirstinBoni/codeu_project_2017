@@ -59,6 +59,7 @@ public final class Chat {
     System.out.println("Message commands:");
     System.out.println("   m-add <body>     - add a new message to the current conversation.");
     System.out.println("   m-list-all       - list all messages in the current conversation.");
+    System.out.println("   m-delete <body> - delete a message.");
     System.out.println("   m-next <index>   - index of next message to view.");
     System.out.println("   m-show <count>   - show next <count> messages.");
     System.out.println("   m-find <keyword> - find all messages that contain keyword.");
@@ -161,7 +162,15 @@ public final class Chat {
               tokenScanner.nextLine().trim());
         }
       }
-
+     else if(token.equals("m-delete")){
+      if(!tokenScanner.hasNext())
+      {
+        System.out.println("ERROR: Message not supplied.");
+      }
+      else{
+        deleteMessage(tokenScanner.nextLine().trim());
+      }
+    } 
     } else if (token.equals("m-list-all")) {
 
       if (!clientContext.conversation.hasCurrent()) {
@@ -283,7 +292,10 @@ public final class Chat {
   private void deleteUser(String name) {
     clientContext.user.deleteUser(name);
   }
-
+  //Delete a message.
+  private void deleteMessage(String u){
+    clientContext.message.deleteMessage(u);
+  }
   // Display all users known to server.
   private void showAllUsers() {
     clientContext.user.showAllUsers();
