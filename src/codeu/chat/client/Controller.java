@@ -135,4 +135,30 @@ public class Controller implements BasicController {
 	    
 	  }
   }
+	@Override
+  public void deleteMessage(String body)
+  {
+    Conversation response = null;
+
+    try(final Connection connection = source.connect())
+    {
+      Serializers.INTEGER.write(connection.out(), NetworkCode.DELETE_MESSAGE_REQUEST);
+      Serializers.STRING.write(connection.out(), body);
+
+      if(Serializers.INTEGER.read(connection.in()) == NetworkCode.DELETE_MESSAGE_RESPONSE);
+      {
+        LOG.info("Delete message: %s success", body);
+      }
+      else
+      {
+        LOG.error("Response from server failed.");
+      }
+
+    }
+    catch(Exception e)
+    {
+      System.out.println("ERROR: Exception during call on server. Check log for details.");
+      LOG.error(e, "Exception during call on server.");
+    }
+  }
 }
