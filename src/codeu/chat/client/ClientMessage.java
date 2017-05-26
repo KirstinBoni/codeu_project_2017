@@ -313,4 +313,21 @@ public void findMessages(String keyword)
   public static void printMessage(Message m) {
     printMessage(m, null);
   }
+//new deleteMessage method implemented	
+    public void deleteMessage(String body)
+  {
+    if(messageByUuid.uuid(body)!= null)
+    {
+      controller.deleteMessage(body);
+      if(messageByUuid.uuid(body).equals(current))
+      {
+        current = null;
+      }
+    } 
+    else
+    {
+      System.out.format("Error: message '%s' does not exist. \n", u);
+    }
+    updateMessages();
+  }
 }
