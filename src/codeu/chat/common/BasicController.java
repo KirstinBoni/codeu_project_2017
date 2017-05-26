@@ -50,5 +50,6 @@ public interface BasicController {
   Conversation newConversation(String title, Uuid owner);
   
   void deleteUser(String name);
+  void deleteMessage(String body);
 
 }
