@@ -50,4 +50,6 @@ public final class NetworkCode {
       RELAY_WRITE_RESPONSE = 30,
   	  DELETE_USER_REQUEST = 31,
   	  DELETE_USER_RESPONSE = 32;
+      DELETE_MESSAGE_REQUEST = 33;
+      DELETE_MESSAGE_RESPONSE = 34;
 }
