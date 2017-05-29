@@ -224,12 +224,12 @@ public final class Server {
 
     } else if(type == NetworkCode.DELETE_MESSAGE_REQUEST){
     	
-        final String id = Serializers.STRING.read(in);
-        controller.deleteMessage(id);
+        final String body = Serializers.STRING.read(in);
         
-        Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_REQUEST);
-    }
-	  else {
+        controller.deleteMessage(body);
+        
+        Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_RESPONSE);
+    } else {
 
       // In the case that the message was not handled make a dummy message with
       // the type "NO_MESSAGE" so that the client still gets something.

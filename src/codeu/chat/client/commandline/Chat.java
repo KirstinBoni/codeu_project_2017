@@ -162,12 +162,14 @@ public final class Chat {
               tokenScanner.nextLine().trim());
         }
       }
-    } else if(token.equals("m-delete")){
-      if(!tokenScanner.hasNext()){
-        System.out.println("ERROR: Message not supplied.");
-      } else{
-        deleteMessage(tokenScanner.nextLine().trim());
-      } 
+    } else if (token.equals("m-delete")){
+    	
+        if (!tokenScanner.hasNext()) {
+          System.out.println("ERROR: Username not supplied.");
+        } else {
+          deleteMessage(tokenScanner.nextLine().trim());
+        }      
+      	 
     } else if (token.equals("m-list-all")) {
 
       if (!clientContext.conversation.hasCurrent()) {
@@ -290,8 +292,8 @@ public final class Chat {
     clientContext.user.deleteUser(name);
   }
   //Delete a message.
-  private void deleteMessage(String u){
-    clientContext.message.deleteMessage(u);
+  private void deleteMessage(String body){
+    clientContext.message.deleteMessage(body);
   }
   // Display all users known to server.
   private void showAllUsers() {

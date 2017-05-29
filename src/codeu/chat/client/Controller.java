@@ -141,7 +141,7 @@ public class Controller implements BasicController {
     Conversation response = null;
 
     try(final Connection connection = source.connect())
-    {
+    { 
       Serializers.INTEGER.write(connection.out(), NetworkCode.DELETE_MESSAGE_REQUEST);
       Serializers.STRING.write(connection.out(), body);
 
@@ -151,6 +151,7 @@ public class Controller implements BasicController {
         LOG.error("Response from server failed.");
       }
 
+      System.out.println("end");
     }
     catch(Exception e)
     {
