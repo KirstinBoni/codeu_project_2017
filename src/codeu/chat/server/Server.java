@@ -222,11 +222,12 @@ public final class Server {
         
         Serializers.INTEGER.write(out, NetworkCode.DELETE_USER_RESPONSE);
 
-    } 
-	  else if(type == NewtorkCode.DELETE_MESSAGE_REQUEST){
-      final String id = Serializers.STRING.read(in);
-      controller.deleteMessage(id);
-      Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_REQUEST);
+    } else if(type == NetworkCode.DELETE_MESSAGE_REQUEST){
+    	
+        final String id = Serializers.STRING.read(in);
+        controller.deleteMessage(id);
+        
+        Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_REQUEST);
     }
 	  else {
 

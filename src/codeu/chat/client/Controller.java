@@ -145,12 +145,9 @@ public class Controller implements BasicController {
       Serializers.INTEGER.write(connection.out(), NetworkCode.DELETE_MESSAGE_REQUEST);
       Serializers.STRING.write(connection.out(), body);
 
-      if(Serializers.INTEGER.read(connection.in()) == NetworkCode.DELETE_MESSAGE_RESPONSE);
-      {
+      if(Serializers.INTEGER.read(connection.in()) == NetworkCode.DELETE_MESSAGE_RESPONSE){
         LOG.info("Delete message: %s success", body);
-      }
-      else
-      {
+      } else {
         LOG.error("Response from server failed.");
       }
 

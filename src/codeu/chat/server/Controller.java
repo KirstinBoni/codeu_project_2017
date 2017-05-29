@@ -109,16 +109,26 @@ public final class Controller implements RawController, BasicController {
 
     User user = null;
 
+    // Check that id is free and not in use, if it is, display error
     if (isIdFree(id)) {
-
-      user = new User(id, name, creationTime);
-      model.add(user);
-
-      LOG.info(
-          "newUser success (user.id=%s user.name=%s user.time=%s)",
-          id,
-          name,
-          creationTime);
+    	
+      // Check that user name is free and not in use, if it is, display error
+      if(isUserFree(name)){
+	      user = new User(id, name, creationTime);
+	      model.add(user);
+	
+	      LOG.info(
+	          "newUser success (user.id=%s user.name=%s user.time=%s)",
+	          id,
+	          name,
+	          creationTime);
+      }else{
+	      LOG.info(
+	              "newUser fail - name in use (user.id=%s user.name=%s user.time=%s)",
+	              id,
+	              name,
+	              creationTime);  
+      }
 
     } else {
 
@@ -139,11 +149,15 @@ public final class Controller implements RawController, BasicController {
 
     Conversation conversation = null;
 
-    if (foundOwner != null && isIdFree(id)) {
+    // Check if id and conversation title are not in use, if they are, report error
+    if (foundOwner != null && isIdFree(id) && isConversationFree(title)) {
       conversation = new Conversation(id, owner, creationTime, title);
       model.add(conversation);
 
       LOG.info("Conversation added: " + conversation.id);
+    }else{
+    	LOG.info("newConversation fail - title in use (conversation.id=%s conversation.title=%s, conversation.owner=%s, conversation.time=%s)",
+    			  id, title, owner, creationTime);
     }
 
     return conversation;
@@ -176,35 +190,33 @@ public final class Controller implements RawController, BasicController {
 
 	  }
   }
-	
+  
   @Override
-  public void deleteMessage(String id){
-    final Message removeMessage = model.messageById().first(id);
-    if(removeMessage != null)
-    {
-      model.messageById.removeByValue(removeMessage);
-      if(isIdFree(id) && isIdFree(removeMessage.id))
-      {
-        LOG.info(
-          "deleteMessage success (message.author=%s, message.id=%s, message.time=%s"), 
-          removeMessage.author, 
-          removeMessage.id, 
-          removeMessage.creation
-        );
-      }
-      else{
-        LOG.info(
-          "deleteMessage fail (message.author=%s, message.id=%s, message.time=%s"),
-          removeMessage.author,
-          removeMessage.id,
-          removeMessage.creation
-        );
-      }
-      else
-      {
-        LOG.info("deleteMessage fail - message does not exist.");
-      }
-    }
+  public void deleteMessage(String body){
+	 final Message removeMessage = model.messageByText().first(body);
+	 
+	  if(removeMessage != null){
+		  model.messageByText().removeByValue(removeMessage);
+		  model.messageById().removeByValue(removeMessage);
+		  model.messageByTime().removeByValue(removeMessage);
+		  
+		  if(isIdFree(removeMessage.id)){
+		      LOG.info(
+			          "deleteMessage success (message.author=%s message.content=%s message.time=%s)",
+			          removeMessage.author,
+			          removeMessage.content,
+			          removeMessage.creation);
+		  }else{
+		      LOG.info(
+			          "deleteMessage fail (message.author=%s message.content=%s message.time=%s)",
+			          removeMessage.author,
+			          removeMessage.content,
+			          removeMessage.creation);		  
+		  }
+	  }else{
+		  LOG.info("deleteUser fail - user does not exist.");
+
+	  }	  
   }
 
   private Uuid createId() {
@@ -223,7 +235,19 @@ public final class Controller implements RawController, BasicController {
 
     return candidate;
   }
+ 
+  private boolean isConversationInUse(String conversation) {
+	    return model.conversationByText().first(conversation) != null;
+  }
 
+  private boolean isConversationFree(String conversation) { return !isConversationInUse(conversation); }
+
+  private boolean isUserInUse(String name) {
+	    return model.userByText().first(name) != null;
+  }
+
+  private boolean isUserFree(String name) { return !isUserInUse(name); }
+  
   private boolean isIdInUse(Uuid id) {
     return model.messageById().first(id) != null ||
            model.conversationById().first(id) != null ||

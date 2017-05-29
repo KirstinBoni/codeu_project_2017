@@ -162,15 +162,12 @@ public final class Chat {
               tokenScanner.nextLine().trim());
         }
       }
-     else if(token.equals("m-delete")){
-      if(!tokenScanner.hasNext())
-      {
+    } else if(token.equals("m-delete")){
+      if(!tokenScanner.hasNext()){
         System.out.println("ERROR: Message not supplied.");
-      }
-      else{
+      } else{
         deleteMessage(tokenScanner.nextLine().trim());
-      }
-    } 
+      } 
     } else if (token.equals("m-list-all")) {
 
       if (!clientContext.conversation.hasCurrent()) {
