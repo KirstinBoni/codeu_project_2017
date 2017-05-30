@@ -59,7 +59,6 @@ public final class Chat {
     System.out.println("Message commands:");
     System.out.println("   m-add <body>     - add a new message to the current conversation.");
     System.out.println("   m-list-all       - list all messages in the current conversation.");
-    System.out.println("   m-delete <body> - delete a message.");
     System.out.println("   m-next <index>   - index of next message to view.");
     System.out.println("   m-show <count>   - show next <count> messages.");
     System.out.println("   m-find <keyword> - find all messages that contain keyword.");
@@ -147,6 +146,14 @@ public final class Chat {
 
       selectConversation(lineScanner);
 
+    } else if (token.equals("c-delete")) {
+    	
+      if (!tokenScanner.hasNext()) {
+        System.out.println("ERROR: Username not supplied.");
+      } else {
+        deleteConversation(tokenScanner.nextLine().trim());
+      }      
+      	
     } else if (token.equals("m-add")) {
 
       if (!clientContext.user.hasCurrent()) {
@@ -165,7 +172,7 @@ public final class Chat {
     } else if (token.equals("m-delete")){
     	
         if (!tokenScanner.hasNext()) {
-          System.out.println("ERROR: Username not supplied.");
+          System.out.println("ERROR: Message not supplied.");
         } else {
           deleteMessage(tokenScanner.nextLine().trim());
         }      
@@ -291,6 +298,12 @@ public final class Chat {
   private void deleteUser(String name) {
     clientContext.user.deleteUser(name);
   }
+  
+  // Delete a conversation.
+  private void deleteConversation(String name){
+	 clientContext.conversation.deleteConversation(name);
+  }
+  
   //Delete a message.
   private void deleteMessage(String body){
     clientContext.message.deleteMessage(body);

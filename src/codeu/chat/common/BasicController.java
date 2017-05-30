@@ -49,7 +49,25 @@ public interface BasicController {
   //  Whether conversations can have the same title is undefined.
   Conversation newConversation(String title, Uuid owner);
   
+  // DELETE USER
+  //
+  //   Delete a user on the server. All parameters must be provided
+  //   or else the server won't apply the change. If the operation is
+  //   successful, a user object will be removed. 
   void deleteUser(String name);
+  
+  // DELETE MESSAGE
+  //
+  //   Delete a message on the server. All parameters must be provided
+  //   or else the server won't apply the change. If the operation is
+  //   successful, a message object will be removed. 
   void deleteMessage(String id);
+  
+  // DELETE CONVERSATION
+  //
+  //   Delete a conversation on the server. All parameters must be provided
+  //   or else the server won't apply the change. If the operation is
+  //   successful, a conversation object will be removed. 
+  void deleteConversation(String name);
 
 }
