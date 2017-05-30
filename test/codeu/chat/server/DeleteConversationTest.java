@@ -40,7 +40,8 @@ public final class DeleteConversationTest {
     controller = new Controller(Uuids.NULL, model);
     UuidGenerator = new LinearUuidGenerator(null, 1, Integer.MAX_VALUE);
   }
-
+  
+  
   @Test
   public void testdeleteConversationByText() {
 	  final User user = controller.newUser("user");
@@ -82,6 +83,38 @@ public final class DeleteConversationTest {
 	  controller.deleteConversation("testConversation2");
 	  
 	  assertTrue(model.conversationById().first(testConversation1.id) == null&& model.conversationById().first(testConversation2.id)==null);
+  }
+  
+  @Test
+  public void testdeleteConversationDoesNotExistEmpty() {
+	  
+	  controller.deleteConversation("conversation");
+	  
+	  assertNull(model.conversationByText().first("conversation"));
+  }
+  
+  @Test
+  public void testdeleteConversationDoesNotExistNonEmpty() {
+	  final User user = controller.newUser("user");
+	  final Conversation conversation = controller.newConversation("conversation", user.id);
+	  
+	  controller.deleteConversation("convo");
+	  
+	  assertFalse(model.conversationByText().first("conversation") == null);
+  }
+  
+  @Test
+  public void testdeleteConversationDoesExistNonEmpty() {
+	  final User user = controller.newUser("user");
+	  final Conversation conversation = controller.newConversation("conversation", user.id);
+
+	  final User user2 = controller.newUser("user2");
+	  final Conversation conversation2 = controller.newConversation("conversation2", user.id);
+	  
+	  controller.deleteConversation("conversation2");
+	  
+	  assertNull(model.conversationByText().first("conversation2"));
+	  assertFalse(model.conversationByText().first("conversation") == null);
   }
   
 }
