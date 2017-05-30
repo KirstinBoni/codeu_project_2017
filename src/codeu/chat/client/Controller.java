@@ -150,8 +150,6 @@ public class Controller implements BasicController {
       } else {
         LOG.error("Response from server failed.");
       }
-
-      System.out.println("end");
     }
     catch(Exception e)
     {

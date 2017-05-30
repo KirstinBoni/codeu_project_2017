@@ -229,6 +229,7 @@ public final class Server {
         controller.deleteMessage(body);
         
         Serializers.INTEGER.write(out, NetworkCode.DELETE_MESSAGE_RESPONSE);
+        
     } else {
 
       // In the case that the message was not handled make a dummy message with
