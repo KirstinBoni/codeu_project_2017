@@ -89,4 +89,34 @@ public final class TestUserMessage {
 	  assertNull(controller.newConversation(testConversationUuid, "test", user.id, user.creation));
   }
   
+  
+  @Test
+  public void testdeleteUserDoesNotExistEmpty() {
+	  
+	  controller.deleteUser("use");
+	  
+	  assertNull(model.userByText().first("use"));
+  }
+  
+  @Test
+  public void testdeleteUserDoesNotExistNonEmpty() {
+	  final User user = controller.newUser("user");
+	  
+	  controller.deleteUser("use");
+	  
+	  assertFalse(model.userByText().first("user") == null);
+  }
+  
+  @Test
+  public void testdeleteUserDoesExistNonEmpty() {
+	  final User user = controller.newUser("user");
+	  final User user2 = controller.newUser("user2");
+	  
+	  controller.deleteUser("user2");
+	  
+	  assertNull(model.userByText().first("user2"));
+	  assertFalse(model.userByText().first("user") == null);
+  }
+  
+  
 }
