@@ -83,14 +83,14 @@ public final class ConversationPanel extends JPanel {
     // Put panels together
     titlePanelC.gridx = 0;
     titlePanelC.gridy = 0;
-    titlePanelC.gridwidth = 10;
+    titlePanelC.gridwidth = 6;
     titlePanelC.gridheight = 4;
     titlePanelC.fill = GridBagConstraints.HORIZONTAL;
     titlePanelC.anchor = GridBagConstraints.FIRST_LINE_START;
 
     listPanelC.gridx = 0;
     listPanelC.gridy = 4;
-    listPanelC.gridwidth = 10;
+    listPanelC.gridwidth = 6;
     listPanelC.gridheight = 4;
     listPanelC.fill = GridBagConstraints.BOTH;
     listPanelC.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -99,7 +99,7 @@ public final class ConversationPanel extends JPanel {
 
     buttonPanelC.gridx = 0;
     buttonPanelC.gridy = 8;
-    buttonPanelC.gridwidth = 10;
+    buttonPanelC.gridwidth = 6;
     buttonPanelC.gridheight = 4;
     buttonPanelC.fill = GridBagConstraints.HORIZONTAL;
     buttonPanelC.anchor = GridBagConstraints.FIRST_LINE_START;
