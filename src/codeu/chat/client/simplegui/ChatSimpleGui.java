@@ -88,24 +88,24 @@ public final class ChatSimpleGui {
     // Placement of main panels.
     usersViewC.gridx = 0;
     usersViewC.gridy = 0;
-    usersViewC.gridwidth = 1;
+    usersViewC.gridwidth = 6;
     usersViewC.gridheight = 1;
     usersViewC.fill = GridBagConstraints.BOTH;
-    usersViewC.weightx = 0.3;
-    usersViewC.weighty = 0.3;
+    usersViewC.weightx = 0.6;
+    usersViewC.weighty = 0.6;
 
-    conversationViewC.gridx = 1;
-    conversationViewC.gridy = 0;
+    conversationViewC.gridx = 0;
+    conversationViewC.gridy = 1;
     conversationViewC.gridwidth = 1;
-    conversationViewC.gridheight = 1;
+    conversationViewC.gridheight = 3;
     conversationViewC.fill = GridBagConstraints.BOTH;
-    conversationViewC.weightx = 0.7;
+    conversationViewC.weightx = 0.2;
     conversationViewC.weighty = 0.3;
 
-    messagesViewC.gridx = 0;
+    messagesViewC.gridx = 1;
     messagesViewC.gridy = 1;
-    messagesViewC.gridwidth = 2;
-    messagesViewC.gridheight = 1;
+    messagesViewC.gridwidth = 5;
+    messagesViewC.gridheight = 3;
     messagesViewC.fill = GridBagConstraints.BOTH;
     messagesViewC.weighty = 0.7;
 
