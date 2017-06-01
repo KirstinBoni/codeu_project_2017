@@ -15,9 +15,9 @@
 package codeu.chat.server;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.Before;
-
 import codeu.chat.common.BasicController;
 import codeu.chat.common.Conversation;
 import codeu.chat.common.Message;
@@ -34,7 +34,7 @@ public final class BasicControllerTest {
     model = new Model();
     controller = new Controller(Uuids.NULL, model);
   }
-
+  
   @Test
   public void testAddUser() {
 
