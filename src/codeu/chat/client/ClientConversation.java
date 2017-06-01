@@ -188,4 +188,18 @@ public final class ClientConversation {
   public static void printConversation(ConversationSummary c) {
     printConversation(c, null);
   }
+  
+  public void deleteConversation(String name){
+	  if(summariesSortedByTitle.first(name) != null){
+		  controller.deleteConversation(name);
+		  if(name.equals(currentSummary.title)){
+			  currentSummary = null;
+			  System.out.println("HERE");
+		  }
+	  }else{
+		  System.out.format("Error: conversation '%s' does not exist. \n", name);
+	  }
+	  
+	  updateCurrentConversation();
+  }
 }

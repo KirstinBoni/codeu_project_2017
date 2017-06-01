@@ -148,7 +148,28 @@ public final class ClientMessage {
   // Message 1 is the head of the Conversation's message chain.
   // Message -1 is the tail of the Conversation's message chain.
   public void selectMessage(int index) {
-	    Method.notImplemented();
+	   int i = 1;
+		  for(Message m: conversationContents)
+		  {
+			  if(i == index)
+			  {
+				  printMessage(m, userContext);
+				  i++;
+			  }
+		  }
+		  if(index == -1)
+		  {
+			int j = 1;
+			for(Message m: conversationContents)
+			{
+				if(i==j)
+				{
+					printMessage(m, userContext);	
+				}
+				j++;
+			}
+			  
+		  }
   }
 
   // Processing for m-show command.
@@ -173,33 +194,33 @@ public final class ClientMessage {
 		  }
 	  }
 
-	  private void showPreviousMessages(int count) {
-	      int i = 1;
-		  for(Message m: conversationContents)
+  private void showPreviousMessages(int count) {
+      int i = 1;
+	  for(Message m: conversationContents)
+	  {
+		  if(i == count-1)
 		  {
-			  if(i == count-1)
-			  {
-				  printMessage(m, userContext);
-				  break;
-			  }
-			  i++;
-			  
-			   
+			  printMessage(m, userContext);
+			  break;
 		  }
-		  if(count == -1)
-		  {	
-			int j = 1;
-			for(Message m: conversationContents)
-			{
-				if(i == j)
-				{
-					printMessage(m, userContext);
-				}
-				j++;
-			}
-			  
-		  }
+		  i++;
+		  
+		   
 	  }
+	  if(count == -1)
+	  {	
+		int j = 1;
+		for(Message m: conversationContents)
+		{
+			if(i == j)
+			{
+				printMessage(m, userContext);
+			}
+			j++;
+		}
+		  
+	  }
+  }
   
   /**
    * Method to find messages that contain the desired keyword.
@@ -338,7 +359,6 @@ public final class ClientMessage {
     	System.out.format("Error: message '%s' does not exist. \n", body);
     }
     
-    updateMessages(true);
   }
 
 }

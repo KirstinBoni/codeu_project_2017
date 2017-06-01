@@ -192,6 +192,34 @@ public final class Controller implements RawController, BasicController {
   }
   
   @Override
+  public void deleteConversation(String title){
+	 final Conversation removeConversation = model.conversationByText().first(title);
+	 
+	  if(removeConversation != null){
+		  model.conversationByText().removeByValue(removeConversation);
+		  model.conversationById().removeByValue(removeConversation);
+		  model.conversationByTime().removeByValue(removeConversation);
+		  
+		  if(isConversationFree(title) && isIdFree(removeConversation.id)){
+		      LOG.info(
+			          "deleteConversation success (conversation.id=%s conversation.title=%s conversation.time=%s)",
+			          removeConversation.id,
+			          removeConversation.title,
+			          removeConversation.creation);
+		  }else{
+		      LOG.info(
+			          "deleteConversation fail (conversation.id=%s conversation.title=%s conversation.time=%s)",
+			          removeConversation.id,
+			          removeConversation.title,
+			          removeConversation.creation);		  
+		  }
+	  }else{
+		  LOG.info("deleteConversation fail - conversation does not exist.");
+
+	  }
+  }
+  
+  @Override
   public void deleteMessage(String body){
 	 final Message removeMessage = model.messageByText().first(body);
 	 
@@ -214,7 +242,7 @@ public final class Controller implements RawController, BasicController {
 			          removeMessage.creation);		  
 		  }
 	  }else{
-		  LOG.info("deleteUser fail - user does not exist.");
+		  LOG.info("deleteMessage fail - message does not exist.");
 
 	  }	  
   }
