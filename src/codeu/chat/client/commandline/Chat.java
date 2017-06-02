@@ -207,6 +207,17 @@ public final class Chat {
         clientContext.message.showMessages(count);
       }
 
+    } else if (token.equals("m-find")){
+        
+        if(!clientContext.conversation.hasCurrent()){
+            System.out.println("ERROR: No conversation selected.");
+        } else{
+      	  if(!tokenScanner.hasNext()){
+      		  System.out.println("ERROR: keyword not supplied.");
+      	  }else{
+      		  clientContext.message.findMessages(tokenScanner.nextLine().trim());
+      	  }
+        }
     } else {
 
       System.out.format("Command not recognized: %s\n", token);
