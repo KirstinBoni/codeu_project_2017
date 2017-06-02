@@ -194,7 +194,6 @@ public final class ClientConversation {
 		  controller.deleteConversation(name);
 		  if(name.equals(currentSummary.title)){
 			  currentSummary = null;
-			  System.out.println("HERE");
 		  }
 	  }else{
 		  System.out.format("Error: conversation '%s' does not exist. \n", name);
