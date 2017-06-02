@@ -82,7 +82,8 @@ public final class DeleteConversationTest {
 	  controller.deleteConversation("testConversation1");
 	  controller.deleteConversation("testConversation2");
 	  
-	  assertTrue(model.conversationById().first(testConversation1.id) == null&& model.conversationById().first(testConversation2.id)==null);
+	  assertNull(model.conversationById().first(testConversation1.id));
+	  assertNull(model.conversationById().first(testConversation2.id));
   }
   
   @Test
@@ -100,7 +101,7 @@ public final class DeleteConversationTest {
 	  
 	  controller.deleteConversation("convo");
 	  
-	  assertFalse(model.conversationByText().first("conversation") == null);
+	  assertNotNull(model.conversationByText().first("conversation"));
   }
   
   @Test
@@ -114,7 +115,7 @@ public final class DeleteConversationTest {
 	  controller.deleteConversation("conversation2");
 	  
 	  assertNull(model.conversationByText().first("conversation2"));
-	  assertFalse(model.conversationByText().first("conversation") == null);
+	  assertNotNull(model.conversationByText().first("conversation"));
   }
   
 }
