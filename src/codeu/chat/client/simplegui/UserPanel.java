@@ -76,7 +76,7 @@ public final class UserPanel extends JPanel {
     final DefaultListModel<String> listModel = new DefaultListModel<>();
     final JList<String> userList = new JList<>(listModel);
     userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    userList.setVisibleRowCount(10);
+    userList.setVisibleRowCount(5);
     userList.setSelectedIndex(-1);
 
     final JScrollPane userListScrollPane = new JScrollPane(userList);
@@ -98,11 +98,13 @@ public final class UserPanel extends JPanel {
 
     final JButton userUpdateButton = new JButton("Update");
     final JButton userSignInButton = new JButton("Sign In");
-    final JButton userAddButton = new JButton("Add");
+    final JButton userAddButton = new JButton("Sign Up");
+    final JButton userDeleteButton = new JButton("Delete User");
 
     buttonPanel.add(userUpdateButton);
     buttonPanel.add(userSignInButton);
     buttonPanel.add(userAddButton);
+    buttonPanel.add(userDeleteButton);
 
     // Placement of title, list panel, buttons, and current user panel.
     titlePanelC.gridx = 0;
@@ -137,7 +139,7 @@ public final class UserPanel extends JPanel {
     this.add(titlePanel, titlePanelC);
     this.add(listShowPanel, listPanelC);
     this.add(buttonPanel, buttonPanelC);
-    this.add(currentPanel, currentPanelC);
+    //this.add(currentPanel, currentPanelC);
 
     userUpdateButton.addActionListener(new ActionListener() {
       @Override
@@ -161,11 +163,22 @@ public final class UserPanel extends JPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         final String s = (String) JOptionPane.showInputDialog(
-            UserPanel.this, "Enter user name:", "Add User", JOptionPane.PLAIN_MESSAGE,
+            UserPanel.this, "Enter user name:", "Sign Up", JOptionPane.PLAIN_MESSAGE,
             null, null, "");
         if (s != null && s.length() > 0) {
           clientContext.user.addUser(s);
           UserPanel.this.getAllUsers(listModel);
+        }
+      }
+    });
+
+    userDeleteButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (userList.getSelectedIndex() != -1) {
+          final String data = userList.getSelectedValue();
+          clientContext.user.deleteUser(data);
+          userSignedInLabel.setText(data + " User Deleted");
         }
       }
     });
