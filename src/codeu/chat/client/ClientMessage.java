@@ -172,7 +172,11 @@ public final class ClientMessage {
   // Negative values go from newest to oldest.
   public void showMessages(int count) {
       for (final Message m : conversationContents) {
+    	  if(count == 0) {
+    		  break;
+    	  }
           printMessage(m, userContext);
+          count--;
         }
   }
 
