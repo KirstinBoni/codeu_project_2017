@@ -39,7 +39,6 @@ public final class ClientMessage {
   private final Controller controller;
   private final View view;
   
-  // Store that contains keywords mapped to messages that contain them
   private Store<String, Message> messagesSortedByKeyword = 
 		  new Store<>(String.CASE_INSENSITIVE_ORDER);
 
@@ -149,21 +148,17 @@ public final class ClientMessage {
   // Message -1 is the tail of the Conversation's message chain.
   public void selectMessage(int index) {
 	   int i = 1;
-		  for(Message m: conversationContents)
-		  {
-			  if(i == index)
-			  {
+		  for(Message m: conversationContents) {
+			  if(i == index) {
 				  printMessage(m, userContext);
 				  i++;
 			  }
 		  }
-		  if(index == -1)
-		  {
+		  
+		  if(index == -1) {
 			int j = 1;
-			for(Message m: conversationContents)
-			{
-				if(i==j)
-				{
+			for(Message m: conversationContents) {
+				if(i==j) {
 					printMessage(m, userContext);	
 				}
 				j++;
@@ -183,10 +178,8 @@ public final class ClientMessage {
 
   private void showNextMessages(int count) {
 	   int i = 1;
-		  for(Message m : conversationContents)
-		  {
-			  if(i == count+1)
-			  {
+		  for(Message m : conversationContents) {
+			  if(i == count+1) {
 				  printMessage(m, userContext);
 				  break;
 			  }
@@ -196,37 +189,27 @@ public final class ClientMessage {
 
   private void showPreviousMessages(int count) {
       int i = 1;
-	  for(Message m: conversationContents)
-	  {
-		  if(i == count-1)
-		  {
+	  for(Message m: conversationContents) {
+		  if(i == count-1) {
 			  printMessage(m, userContext);
 			  break;
 		  }
-		  i++;
-		  
-		   
+		  i++;	   
 	  }
-	  if(count == -1)
-	  {	
+	  
+	  if(count == -1) {	
 		int j = 1;
-		for(Message m: conversationContents)
-		{
-			if(i == j)
-			{
+		for(Message m: conversationContents) {
+			if(i == j) {
 				printMessage(m, userContext);
 			}
 			j++;
-		}
-		  
+		}	  
 	  }
   }
   
-  /**
-   * Method to find messages that contain the desired keyword.
-   * 
-   * @param keyword word to find in the messages.
-   */
+  // Method to find messages that contain the desired keyword.
+  // Accepts a keyword to find.
   public void findMessages(String keyword){
 	  // Check the first element to determine if it the StoreLink is empty	  
 	  if(messagesSortedByKeyword.first(keyword) != null){
