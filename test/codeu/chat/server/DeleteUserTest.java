@@ -28,7 +28,7 @@ import codeu.chat.common.Uuids;
 import codeu.chat.common.Uuid;
 import codeu.chat.common.LinearUuidGenerator;
 
-public final class TestUserMessage {
+public final class DeleteUserTest {
 
   private Model model;
   private Controller controller;
@@ -93,9 +93,9 @@ public final class TestUserMessage {
   @Test
   public void testdeleteUserDoesNotExistEmpty() {
 	  
-	  controller.deleteUser("use");
+	  controller.deleteUser("doesnotexist");
 	  
-	  assertNull(model.userByText().first("use"));
+	  assertNull(model.userByText().first("doesnotexist"));
   }
   
   @Test
@@ -104,7 +104,7 @@ public final class TestUserMessage {
 	  
 	  controller.deleteUser("use");
 	  
-	  assertFalse(model.userByText().first("user") == null);
+	  assertNotNull(model.userByText().first("user"));
   }
   
   @Test
@@ -115,7 +115,7 @@ public final class TestUserMessage {
 	  controller.deleteUser("user2");
 	  
 	  assertNull(model.userByText().first("user2"));
-	  assertFalse(model.userByText().first("user") == null);
+	  assertNotNull(model.userByText().first("user"));
   }
   
   
