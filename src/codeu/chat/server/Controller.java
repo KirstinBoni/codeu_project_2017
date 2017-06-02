@@ -16,6 +16,11 @@ package codeu.chat.server;
 
 import java.util.Collection;
 
+import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+
 import codeu.chat.util.store.Store;
 import codeu.chat.util.store.StoreAccessor;
 import codeu.chat.common.BasicController;
@@ -105,7 +110,13 @@ public final class Controller implements RawController, BasicController {
   }
 
   @Override
-  public User newUser(Uuid id, String name, Time creationTime) {
+  public User newUser(Uuid id, String name, Time creationTime) 
+  {
+
+	  //creates a new file that will contain all of the users' data
+	String userHomeFolder = System.getProperty("user.home");
+    	File textFile = new File(userHomeFolder, "userData.txt");
+    	PrintWriter printWriter = null;
 
     User user = null;
 
@@ -116,7 +127,21 @@ public final class Controller implements RawController, BasicController {
       if(isUserFree(name)){
 	      user = new User(id, name, creationTime);
 	      model.add(user);
-	
+	//attempts to write user's name to userData.txt
+	try 
+      {
+        printWriter = new PrintWriter("userData.txt", "UTF-8");
+        printWriter.println(name);
+      } 
+      catch(FileNotFoundException|UnsupportedEncodingException e)
+      {
+        e.printStackTrace();
+      }
+      finally 
+      {   
+        printWriter.close();
+      }
+	      
 	      LOG.info(
 	          "newUser success (user.id=%s user.name=%s user.time=%s)",
 	          id,
